@@ -1,4 +1,7 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -14,19 +17,22 @@ namespace Business.Concrete
         {
             _brandDal = brandDal;
         }
-        public void Add(Brand entity)
+        public IResult Add(Brand entity)
         {
-            throw new NotImplementedException();
+            _brandDal.Add(entity);
+            return new SuccessResult(Messages.Adedd);
         }
 
-        public void Delete(Brand entity)
+        public IResult Delete(Brand entity)
         {
-            throw new NotImplementedException();
+            _brandDal.Delete(entity);
+            return new SuccessResult(Messages.Adedd);
         }
 
-        public void Updated(Brand entity)
+        public IResult Updated(Brand entity)
         {
-            throw new NotImplementedException();
+            _brandDal.Update(entity);
+            return new SuccessResult(Messages.Adedd);
         }
     }
 }
