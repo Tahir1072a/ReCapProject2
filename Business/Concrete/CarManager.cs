@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidaton;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
@@ -19,6 +22,8 @@ namespace Business.Concrete
         {
             _carDal = carDal;
         }
+        // Bu metodu doğrular car validatoru kullanarak
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car entity)
         {
             _carDal.Add(entity);
