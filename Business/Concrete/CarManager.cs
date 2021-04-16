@@ -3,6 +3,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidaton;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using Core.Utilities.Results.Abstract;
 using Core.Utilities.Results.Concrete;
@@ -26,8 +27,14 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car entity)
         {
+
+            if (!BusinessRules.Run(CheckIfCarCountOfBrandCorrect(entity)))
+            {
+                return new ErrorResult(Messages.Invalid);
+            }
             _carDal.Add(entity);
             return new SuccessResult(Messages.Adedd);
+
         }
 
         public IResult Delete(Car entity)
@@ -55,6 +62,15 @@ namespace Business.Concrete
         {
             _carDal.Update(entity);
             return new SuccessResult(Messages.Adedd);
+        }
+        private bool CheckIfCarCountOfBrandCorrect(Car entity)
+        {
+            var result = _carDal.GetAll(p => p.BrandId == entity.BrandId);
+            if (result.Count >= 3)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
